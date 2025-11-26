@@ -3,6 +3,7 @@
 ## Tools used
 
 - Netdiscover
+- Ffuf
 
 
 ## Step 1 (Enumeration)
@@ -68,9 +69,32 @@ So we can now use ffuf with that in mind using the command `ffuf -w /usr/share/w
 
 <img width="824" height="419" alt="image" src="https://github.com/user-attachments/assets/2551e9bd-faae-4fc8-9954-006fc303ab19" />
 
-This returns a directory called `secrets` that we can access using the URL http://10.38.1.117/~secret
+This returns a directory called `~secret` that we can access using the URL http://10.38.1.117/~secret
 
 The URL has a message informing us that there is an ssh private key we need to find within the file and we need to use fasttrack to crack the passwords.
 
 <img width="926" height="111" alt="image" src="https://github.com/user-attachments/assets/cfc53c8f-1234-42d3-b4b4-bd172005da5d" />
+
+Using `ffuf` to continue searching for hidden directories under the `~secret` directory using the command `ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.38.1.117/~secret/FUZZ.txt`
+
+This gives a lot of directories but looking at the ones with different statuses, Sizes, Words or lines we find 2 of them `#` and `mysecret`.
+
+<img width="933" height="766" alt="image" src="https://github.com/user-attachments/assets/7115d4f8-9203-46c3-a6ab-01834b060d59" />
+
+<img width="759" height="152" alt="image" src="https://github.com/user-attachments/assets/0fa57ea9-9b8b-4f3a-a03f-2f14d9c29926" />
+
+We can ignore the # directory since it is just the default and we would see the same message we saw in the `~secret` directory.
+
+Moving on to the mysecret directory `http://10.38.1.117/~secret/.mysecret.txt` we find the encrypted message that we were instructed to decrypt in order to find the ssh private key.
+
+## Step 6
+
+We need to know the encoding format that was used and the tools that you will use to decrypt the text.
+We will use Cipher Identifier on the dcode website.
+Now to access the internet and go to the dcode website you need to save the VM state and change the VM network settings to bridged adapter.
+Go to the URL https://www.dcode.fr/cipher-identifier and paste the message.
+
+After the analysis the tools points out that the most probable format is base 58.
+
+<img width="949" height="760" alt="image" src="https://github.com/user-attachments/assets/7eb2220d-e63e-485c-8bfc-de75726f5dce" />
 
