@@ -3,7 +3,11 @@
 ## Tools used
 
 - Netdiscover
+- Nmap
 - Ffuf
+- Gobuster
+- dcode for cipher identification and decryption
+- 
 
 
 ## Step 1 (Enumeration)
@@ -90,8 +94,10 @@ Moving on to the mysecret directory `http://10.38.1.117/~secret/.mysecret.txt` w
 ## Step 6
 
 We need to know the encoding format that was used and the tools that you will use to decrypt the text.
-We will use Cipher Identifier on the dcode website.
+We will use the Cipher Identifier tool on the dcode website.
+
 Now to access the internet and go to the dcode website you need to save the VM state and change the VM network settings to bridged adapter.
+
 Go to the URL https://www.dcode.fr/cipher-identifier and paste the message.
 
 After the analysis the tools points out that the most probable format is base 58.
