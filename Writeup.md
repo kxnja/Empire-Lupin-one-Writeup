@@ -7,6 +7,9 @@
 - Ffuf
 - Gobuster
 - dcode for cipher identification and decryption
+- Cyberchef
+- ssh2john
+- John the ripper
 - 
 
 
@@ -103,4 +106,33 @@ Go to the URL https://www.dcode.fr/cipher-identifier and paste the message.
 After the analysis the tools points out that the most probable format is base 58.
 
 <img width="949" height="760" alt="image" src="https://github.com/user-attachments/assets/7eb2220d-e63e-485c-8bfc-de75726f5dce" />
+
+Now that we know what format the text is in we can move on to https://gchq.github.io/CyberChef/ , paste the text in the input, select the data format tab and select `from Base 58`. The tool decrypts the text and gives us the OPENSSH private key.
+
+<img width="1919" height="894" alt="image" src="https://github.com/user-attachments/assets/945df1e0-ec40-4e88-a963-07d9b9190827" />
+
+Copy the output and using `nano` we can save the text.
+`sudo nano ssh_key_lupin_one.rsa` this is the command used to create a file in nano. `ssh_key_lupin_one` is just the file name.
+
+<img width="292" height="42" alt="image" src="https://github.com/user-attachments/assets/329e8100-86bb-4268-adbd-a7b6e8b4376b" />
+
+Paste the text, save it and exit nano.
+
+## Step 7
+
+Using ssh2john we can extract hashes from the private key that will help us find the password.
+
+<img width="355" height="49" alt="image" src="https://github.com/user-attachments/assets/abaef027-c574-4123-99f6-54b12b8596c7" />
+
+This command extracts all hashes from the private key and saves them in a file called hash.
+
+We can then use jack the ripper to crack those hashes.
+
+<img width="799" height="217" alt="image" src="https://github.com/user-attachments/assets/f43aa846-cd27-460a-ae08-30e7e0a3f311" />
+
+So we can see that we have cracked the password and username.
+
+## Step 8
+
+Now go save your machine state and change your VM's network settings back to internal network (if you used my procedure of setting up). This puts your kali machine and the target VM on the same network so they can communicate. 
 
