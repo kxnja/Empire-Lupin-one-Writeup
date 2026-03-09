@@ -200,3 +200,48 @@ Once executed we can finally locate the webbrowser file.
 
 <img width="807" height="764" alt="image" src="https://github.com/user-attachments/assets/2cece744-0397-4a98-84ba-bb6cacef21f8" />
 
+Using `nano` open the python script and edit it as follows;
+
+<img width="799" height="769" alt="image" src="https://github.com/user-attachments/assets/b5943d01-0888-400a-b18f-754c6c4a5b50" />
+
+Add the highlighted line and do not change anything else.
+
+This line helps us launch a bash shell. A bash shell is a CLI (Command Line Interface) used to interact with linux and unix operating systems. This allows someone to type in commands that the OS executes.
+
+Now since the `icex64` user cannot execute the python script, we will use the python library hijacking method to change the user.
+
+You can see here the `icex64` user's permissions and we can also see that there is another user called `arsene`. 
+
+We can change the user using the command `sudo -u arsene /usr/bin/python3.9 /home/arsene/heist.py`
+
+Now you can note that the user has changed.
+
+<img width="708" height="41" alt="image" src="https://github.com/user-attachments/assets/2b2728c4-db9b-4d84-9f8d-0fe04d183a68" />
+
+## Step 9 (pip privilege escalation)
+
+Using `sudo -l` you can view the new user's permissions. 
+
+<img width="707" height="109" alt="image" src="https://github.com/user-attachments/assets/d77d752b-61db-46c5-90df-8682b8c7f69d" />
+
+Here, we can see that machine is vulnerable to pip privilge escalation.
+
+You can learn more about pip privilge escalation from https://www.hackingarticles.in/linux-for-pentester-pip-privilege-escalation/
+
+`TF=$(mktemp -d)`
+`echo "import os; os.execl('/bin/sh', 'sh', '-c', 'sh <$(tty) >$(tty) 2>$(tty)')" > $TF/setup.py`
+`sudo pip install $TF`
+
+Run the above programs one by one.
+
+This logs you as the root user. You can confrim this using the command `id`.
+
+<img width="803" height="180" alt="image" src="https://github.com/user-attachments/assets/597fe93d-d94e-4204-b8b8-2c3ec7fd9b43" />
+
+Now change the directory and use `ls` to list the available files.
+
+<img width="504" height="164" alt="image" src="https://github.com/user-attachments/assets/7bdd2ec5-a61d-445e-b598-06894e5cf49b" />
+
+Here we find the root flag.
+
+# Congratulations 
