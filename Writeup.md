@@ -10,8 +10,6 @@
 - Cyberchef
 - ssh2john
 - John the ripper
-- 
-
 
 ## Step 1 (Enumeration)
 
@@ -244,4 +242,6 @@ Now change the directory and use `ls` to list the available files.
 
 Here we find the root flag.
 
-# Congratulations 
+# Congratulations on completing this CTF
+# Wishing you happy hacking
+# Remember to stay ethical
